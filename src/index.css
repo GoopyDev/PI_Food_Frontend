@@ -1,5 +1,32 @@
+:root {
+  --primary-color: #00aaff; /* Azul brillante */
+  --secondary-color: #0091ff; /* Rosa eléctrico */
+  --background-color: #111; /* Fondo oscuro */
+  --text-color: #fff; /* Texto blanco */
+  --shadow-color: #00aaff; /* Sombra neón */
+  /* --offset-x: 0px; Para acomodar el fondo */
+  /* --angle: 0deg; */
+}
+
+/* ///////////// */
+
+
 body {
   margin: 0;
+  background-color: var(--background-color);
+  /* background-color: #212121; */
+  /* background-image: */
+              /* linear-gradient( #000F,#0009 ), */
+              /* repeating-linear-gradient(   #4444, #4444 10px,transparent 10px, transparent 20px), */
+        			/* repeating-linear-gradient(  90deg, #4444, #4444  calc(var(--offset-x) + 5px),transparent  calc(var(--offset-x) + 5px), transparent calc(var(--offset-x) + 15px), #4444 calc(var(--offset-x) + 15px), #4444 20px), */
+        			/* repeating-linear-gradient(  90deg, #4444, #4444  calc(var(--offset-x) + 5px),transparent  calc(var(--offset-x) + 5px), transparent calc(var(--offset-x) + 15px), #4444 calc(var(--offset-x) + 15px), #4444 20px), */
+              /* repeating-linear-gradient( calc(var(--angle)), #4444, #4444 14.14213562373095px,transparent 14.14213562373095px, transparent 28.2842712474619px), */
+              /* repeating-linear-gradient( calc(var(--angle) * 5 ), #4444, #4444 14.14213562373095px,transparent 14.14213562373095px, transparent 28.2842712474619px), */
+              /* linear-gradient(60deg, red, orange, yellow, green, blue, purple, pink, red); */
+  background-attachment: fixed;
+  /* background-position: center; */
+  background-position: 50% 50%;
+  color: var(--text-color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -11,3 +38,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* ///////////// */
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  margin: 10px 10px 30px 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+  box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.container {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--shadow-color);
+  padding: 20px;
+}
+
