@@ -28,12 +28,12 @@ export const getHomeRecipes = () => {
     console.log("Obteniendo recetas...");
     const API =
       (await axios
-        .get("http://localhost:3001/recipes?source=api")
+        .get("/recipes?source=api")
         .then((response) => response.data)
         .catch((error) => [])) || [];
     const DB =
       (await axios
-        .get("http://localhost:3001/recipes?source=database")
+        .get("/recipes?source=database")
         .then((response) => response.data)
         .catch((error) => [])) || [];
     console.log("API");
@@ -50,7 +50,7 @@ export const getRecipes = (source = "api") => {
   return async function (dispatch) {
     console.log(`Obteniendo recetas desde ${source}...`);
     const data = await axios
-      .get(`http://localhost:3001/recipes?source=${source}`)
+      .get(`/recipes?source=${source}`)
       .then((response) => response.data)
       .catch((error) => {
         throw Error({ message: error.message });
@@ -65,7 +65,7 @@ export const getRecipeById = (id, source = "api") => {
       `Obteniendo detalles de la receta con ID ${id} desde ${source}...`
     );
     const data = await axios
-      .get(`http://localhost:3001/recipes/${id}?source=${source}`)
+      .get(`/recipes/${id}?source=${source}`)
       .then((response) => {
         return response.data;
       })
@@ -78,9 +78,7 @@ export const getRecipeByName = (recipe, source = "api") => {
   return async function (dispatch) {
     console.log(`Buscando recetas que coincidan con el nombre ${recipe}...`);
     const data = await axios
-      .get(
-        `http://localhost:3001/recipes?recipeName=${recipe}&source=${source}`
-      )
+      .get(`/recipes?recipeName=${recipe}&source=${source}`)
       .then((response) => response.data)
       .catch((error) => console.log(error));
     if (data) dispatch({ type: GET_RECIPE_BY_NAME, payload: data }); // Obtiene un objeto "Recipe"
@@ -94,7 +92,7 @@ export const getDiets = () => {
     );
     const data =
       (await axios
-        .get(`http://localhost:3001/diets`)
+        .get(`/diets`)
         .then((response) => response.data)
         .catch((error) => console.log(error))) || [];
     console.log("Las dietas obtenidas");
@@ -115,14 +113,14 @@ export const addRecipe = (objRecipe, resetFormFunction) => {
     let detailedResponse;
     const data = await axios
       .request({
-        url: `http://localhost:3001/recipes`,
+        url: `/recipes`,
         method: "POST",
         data: objRecipe,
         headers: {
           "Content-Type": "application/json",
         },
       })
-      // .post(`http://localhost:3001/recipes`, { ...objRecipe })
+      // .post(`/recipes`, { ...objRecipe })
       .then((response) => {
         detailedResponse = {
           data: response.data,
