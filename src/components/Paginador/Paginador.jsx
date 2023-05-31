@@ -50,16 +50,28 @@ const DisabledButton = styled.button`
 export default function Paginador(props) {
   const { component } = props; //Component nos indica qué componente utiliza al paginador
 
-  const { resultsToShow, apiRecipes, searchResults, currentPage } = useSelector(
-    (state) => state
-  );
+  const {
+    resultsToShow,
+    apiRecipes,
+    dbRecipes,
+    searchResults,
+    currentPageApi,
+    currentPageDb,
+    currentPageSearch,
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   let totalPages;
-  if (component === "HomePage") {
+  let currentPage;
+  if (component === "HomePageApi") {
     totalPages = Math.ceil(apiRecipes?.length / resultsToShow);
+    currentPage = currentPageApi;
+  } else if (component === "HomePageDatabase") {
+    totalPages = Math.ceil(dbRecipes?.length / resultsToShow);
+    currentPage = currentPageDb;
   } else if (component === "SearchPage") {
     totalPages = Math.ceil(searchResults?.length / resultsToShow);
+    currentPage = currentPageSearch;
   }
   const pagesToShow = [];
 
@@ -99,9 +111,9 @@ export default function Paginador(props) {
   console.log("PagesToShow:");
   console.log(pagesToShow.sort((a, b) => a - b)); // El orden no importaba, ya que lo ordenamos en forma ascendente y listo
 
-  const handlePageChange = (pageNum) => {
-    dispatch(setCurrentPage(pageNum));
-    console.log(`Cambiar página actual a ${pageNum}`);
+  const handlePageChange = (pageNum, component) => {
+    dispatch(setCurrentPage(pageNum, component));
+    console.log(`${component}: Cambiar página actual a ${pageNum}`);
   };
 
   return (
@@ -114,7 +126,10 @@ export default function Paginador(props) {
               <DisabledPage>{page}</DisabledPage>
             </DisabledButton>
           ) : (
-            <EnabledButton key={index} onClick={() => handlePageChange(page)}>
+            <EnabledButton
+              key={index}
+              onClick={() => handlePageChange(page, component)}
+            >
               <EnabledPage>{page}</EnabledPage>
             </EnabledButton>
           );

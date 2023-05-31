@@ -10,34 +10,31 @@ import {
 import DetailRecipeParser from "../DetailRecipeParser/DetailRecipeParser";
 import styled from "styled-components";
 import Paginador from "../Paginador/Paginador";
+import TopHiddenDiv from "../TopHiddenDiv/TopHiddenDiv";
 
 const MainDiv = styled.div`
-  margin-top: 170px;
+  margin-top: 200px;
 `;
 
 const SearchPage = () => {
-  // const [state, setState] = useState({
-  //   busqueda: "",
-  // });
   const dispatch = useDispatch();
   const location = useLocation();
   const {
     currentSearch,
     currentSource,
-    currentPage,
+    currentPageSearch,
     searchResults,
     resultsToShow,
   } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(setCurrentPage(1));
+    dispatch(setCurrentPage(1, "SearchPage"));
 
     // Parsear los parámetros de la URL
     const params = new URLSearchParams(location.search);
     const name = params.get("name");
     const id = params.get("id");
-
-    const searchFor = id ?? name;
+    const searchFor = id ?? name; // Para mostrar la palabra que se buscó
 
     // Un fix, por si se accede a la ruta "SearchPage" manualmente:
     if (!currentSearch) dispatch(setCurrentSearch(searchFor));
@@ -55,12 +52,13 @@ const SearchPage = () => {
   }, [dispatch, currentSearch, currentSource, location.search]);
   // }, [dispatch, location.search]);
 
-  let start = (currentPage - 1) * 10;
+  let start = (currentPageSearch - 1) * resultsToShow;
   let end = start + resultsToShow;
   // if (end > searchResults.length) end = searchResults.length;
 
   return (
     <MainDiv>
+      <TopHiddenDiv />
       <h1>
         Showing {searchResults.length} results for: "{currentSearch}"
       </h1>

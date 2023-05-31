@@ -1,29 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import "./RecipeCard.module.css";
-
-//prettier-ignore
-const dietColors = {
-  "vegan"               : "darkgreen"     , // 
-  "vegetarian"          : "green"         , // 
-  "glutenFree"          : "darkgoldenrod" , // 
-  "gluten free"         : "goldenrod"     , // 
-  "dairy free"          : "darkturquoise" , // 
-  "lacto ovo vegetarian": "darkolivegreen", // 
-  "paleolithic"         : "darkred"       , // 
-  "primal"              : "darkcyan"      , // 
-  "whole 30"            : "blue"          , // 
-  "pescatarian"         : "darkslateblue" , // 
-  "ketogenic"           : "darkmagenta"   , // 
-  "fodmap friendly"     : "orangered"     , // 
-  "SampleDiet"          : "black"         , // 
-  2                     : "darkblue"      , // 
-  40                    : "darkviolet"    , // 
-  1                     : "brown"         , // 
-  59                    : "chocolate"     , // 
-  6                     : "red"           , // 
-  17                    : "navy"          , // 
-};
+import DietsParser from "../DietsParser/DietsParser";
 
 const CardContainer = styled.div`
   display: flex;
@@ -39,7 +17,7 @@ const CardContainer = styled.div`
   &:hover {
     transform: scale(1.05);
     filter: saturate(1.2) contrast(1.2);
-    z-index: 999;
+    z-index: 980;
     border: 3px solid turquoise;
   }
   @media screen and (max-width: 800px) {
@@ -71,17 +49,10 @@ const Description = styled.p`
   font-size: "small";
   color: #ddd;
   margin: "0 0 5px 0";
+  height: 150px;
+  overflow: hidden;
 `;
 
-const DietBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  & span {
-    border-radius: 3px;
-    margin: 3px 0 0 5px;
-    padding: 0 3px;
-  }
-`;
 const StepsBox = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -108,10 +79,18 @@ const CardImg = styled.img`
 export default function RecipeCard(props) {
   // console.log(props.recipeData);
   // id name image description health_score steps
-  const { id, image, diets } = props.recipeData || {};
+  const { id, image } = props.recipeData || {};
   const name = props.recipeData.title || props.recipeData.name;
   const description = props.recipeData.summary || props.recipeData.description;
   const health_score = props.recipeData.healthScore || props.recipeData.health_score; // prettier-ignore
+
+  // dietsInfo se pasa como parámetro a DietsParser para que devueva la lista de dietas
+  const dietsInfo = {
+    diets: props.recipeData.diets,
+    vegan: props.recipeData.vegan,
+    vegetarian: props.recipeData.vegetarian,
+    glutenFree: props.recipeData.glutenFree,
+  };
 
   // Obtención de los "Steps": hay diferencia entre los de la API y los de la DB
   // API: se encuentran dentro de "analyzedInstructions"
@@ -135,7 +114,9 @@ export default function RecipeCard(props) {
         <CardSectionLeft>
           <h2 style={{ marginBottom: "0" }}>{name}</h2>
           <Description dangerouslySetInnerHTML={{ __html: description }} />
-          <DietBox>
+          <DietsParser dietsInfo={dietsInfo} />
+          {/* <DietBox>
+            {console.log(diets)}
             {diets?.length > 0 &&
               diets?.map((diet, index) => (
                 <span
@@ -145,7 +126,7 @@ export default function RecipeCard(props) {
                   {diet}
                 </span>
               ))}
-          </DietBox>
+          </DietBox> */}
         </CardSectionLeft>
 
         <CardSectionRight>

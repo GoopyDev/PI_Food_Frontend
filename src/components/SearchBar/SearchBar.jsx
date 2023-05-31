@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Filtros from "../Filtros/Filtros";
 import {
   cleanSearch,
@@ -93,6 +93,7 @@ export default function SearchBar(props) {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentSource } = useSelector((state) => state);
 
   function buscar() {
@@ -128,7 +129,7 @@ export default function SearchBar(props) {
       <SearchContainer>
         <ElementsBox>
           <LabelContainer>
-            <label htmlFor="search">Buscar recetas</label>
+            <label htmlFor="search">Search recipes</label>
           </LabelContainer>
           <div style={{ display: "flex" }}>
             <SearchInput
@@ -172,7 +173,7 @@ export default function SearchBar(props) {
         </ElementsBox>
       </SearchContainer>
       <hr style={{ width: "75%", borderColor: "#0099ff42" }} />
-      <Filtros />
+      {location.pathname.toLowerCase() !== "/about" && <Filtros />}
     </MainDiv>
   );
 }

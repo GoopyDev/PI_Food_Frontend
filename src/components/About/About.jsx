@@ -5,6 +5,7 @@ import About_BG02 from "../../images/About_BG02.jpg";
 // import About_Wood01 from "../../images/About_Wood01.jpg";
 
 const AboutContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,7 +14,8 @@ const AboutContainer = styled.div`
   text-shadow: 0 0 4px aqua;
   width: 800px;
   height: 600px;
-  background-color: #333;
+  margin-top: 190px;
+  /* background-color: #333; */
   // prettier-ignore
   background-image:
     linear-gradient(to bottom, #3c1e00d5, #8b4100d6 4%, transparent 20%, black 90% ),
@@ -100,6 +102,19 @@ const AboutText = styled.p`
   background-color: #0009;
   border-radius: 10px;
   text-align: center;
+  overflow: auto;
+  scrollbar-width: thin; /* Para navegadores Firefox */
+  -ms-overflow-style: none; /* Para navegadores Internet Explorer y Edge */
+  &::-webkit-scrollbar {
+    width: 0.2rem; /* Ancho de la barra de desplazamiento */
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #fff7; /* Color de fondo de la barra de desplazamiento */
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #fff3; /* Color de fondo del riel de la barra de desplazamiento */
+  }
 `;
 
 const About = () => {
@@ -107,14 +122,34 @@ const About = () => {
     <AboutContainer>
       <ImgDiv>
         <BGDiv>
-          <Logo src="logo.png" alt="Videogames Blackhole" />
+          <Logo src="logo.png" alt="The Sacred Fork" />
           <AboutText>
-            Videogames Blackhole es una aplicación web que ofrece información
-            sobre videojuegos. Este proyecto fue creado utilizando tecnologías
-            como React, Node.js y PostgreSQL. El creador de la aplicación es un
-            estudiante de Fullstack Developer con conocimientos en desarrollo de
-            juegos en Unity, Python y otras tecnologías. También es músico, le
-            gusta la pintura, dibujos y la música.
+            At "The Sacred Fork", we believe that food is not merely sustenance,
+            but a profound experience that brings people together. Our mission
+            is to celebrate the art of cooking, foster culinary exploration, and
+            cultivate a thriving community passionate about good food. With our
+            cloud-based recipe platform, we aim to empower home cooks,
+            professional chefs, and food enthusiasts alike. Our curated
+            collection of recipes spans cultures, flavors, and dietary
+            preferences, providing a diverse and inclusive space for culinary
+            creativity to flourish. From the comfort of your kitchen, embark on
+            a culinary adventure that transcends borders. Immerse yourself in a
+            world of tantalizing aromas, vibrant colors, and unforgettable
+            flavors. Our recipe database, fueled by the contributions of our
+            passionate community, ensures there's always something new and
+            exciting to discover. As advocates for healthy living, we offer the
+            option to filter recipes by various dietary requirements. Whether
+            you're a vegetarian, gluten-free, or following a specific diet, "The
+            Sacred Fork" has you covered. Furthermore, you can prioritize your
+            well-being by sorting recipes based on their health score, allowing
+            you to make informed choices for your body and mind. "The Sacred
+            Fork" is more than just a recipe platform; it's a community united
+            by a shared love for exceptional cuisine. Engage with fellow food
+            enthusiasts, exchange tips and tricks, and build lasting
+            connections. Together, we celebrate the joy of cooking, the pleasure
+            of sharing, and the transformative power of food. Join us on this
+            culinary journey and let "The Sacred Fork" be your guide to a world
+            of delectable flavors and culinary inspiration.
           </AboutText>
         </BGDiv>
       </ImgDiv>

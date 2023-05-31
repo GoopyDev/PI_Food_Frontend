@@ -10,6 +10,7 @@ const Nav = styled.nav`
   justify-content: space-evenly;
   align-items: center;
   width: 95%;
+  height: 50px;
   border-radius: 10px;
   background-image: repeating-linear-gradient(
     60deg,

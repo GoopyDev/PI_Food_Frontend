@@ -371,7 +371,7 @@ export default function CreateRecipeForm() {
         },
       };
       console.log(newRecipe);
-      dispatch(addRecipe(newRecipe));
+      dispatch(addRecipe(newRecipe, resetForm));
     } else {
       setErrorList(errors);
     }
@@ -464,6 +464,7 @@ export default function CreateRecipeForm() {
                     <input
                       type="checkbox"
                       value={dietName}
+                      id={"checkbox" + index}
                       onChange={handleCheckboxChange}
                       checked={recipeDiets.diets?.includes(dietName)}
                     />
@@ -485,7 +486,7 @@ export default function CreateRecipeForm() {
           handleStepChange={handleStepChange}
           removeStep={removeStep}
         />
-        <AddStepButton type="button" onClick={addStep}>
+        <AddStepButton type="button" id="addStep" onClick={addStep}>
           Add step
           <PlusDiv>+</PlusDiv>
         </AddStepButton>
@@ -494,7 +495,9 @@ export default function CreateRecipeForm() {
         ))}
         <Separator />
 
-        <button type="submit">Create recipe</button>
+        <button type="submit" id="submitter">
+          Create recipe
+        </button>
       </Form>
 
       {/* Sección de condicionales para mensajes */}
@@ -522,13 +525,6 @@ export default function CreateRecipeForm() {
           <p>{formResponse?.data}</p>
         </ErrorMsgDiv>
       )}
-      {formResponse?.status < 300
-        ? console.log(
-            `La condición 1 (Success) funciona. Status: ${formResponse.status}`
-          )
-        : console.log(
-            `La condición 2 (Error) funciona. Status: ${formResponse.status}`
-          )}
     </Container>
   );
 }

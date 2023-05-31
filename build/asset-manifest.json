@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e639620f.css",
+    "main.js": "/static/js/main.373d7343.js",
+    "static/media/BG_Ingredients.jpg": "/static/media/BG_Ingredients.c880e3ab43a142e60fa1.jpg",
+    "static/media/RecipeCreated.png": "/static/media/RecipeCreated.68312a6d8e7997a7923b.png",
+    "static/media/AddFood02.jpg": "/static/media/AddFood02.f7292bfdafdda219c870.jpg",
+    "static/media/About_Frame.png": "/static/media/About_Frame.6e4804218c16d8ef1c32.png",
+    "static/media/About_BG02.jpg": "/static/media/About_BG02.af3ade3dc4f2d1d4f80a.jpg",
+    "index.html": "/index.html",
+    "main.e639620f.css.map": "/static/css/main.e639620f.css.map",
+    "main.373d7343.js.map": "/static/js/main.373d7343.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e639620f.css",
+    "static/js/main.373d7343.js"
+  ]
+}

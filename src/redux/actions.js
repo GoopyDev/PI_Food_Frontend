@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   GET_HOME_RECIPES,
   GET_RECIPES,
@@ -7,7 +6,7 @@ import {
   GET_DIETS,
   CLEAN_SEARCH,
   RESET_FILTERS,
-  ADD_RECIPE,
+  // ADD_RECIPE,
   ORDER_RECIPES,
   FILTER_RECIPES,
   SET_CURRENT_SEARCH,
@@ -19,6 +18,7 @@ import {
   SET_PREVENT_API_CALL,
   SET_FORM_RESPONSE,
 } from "./action-types";
+import axios from "axios";
 
 // Defino mis funciones "action creators"
 
@@ -26,20 +26,22 @@ import {
 export const getHomeRecipes = () => {
   return async function (dispatch) {
     console.log("Obteniendo recetas...");
-    const API = await axios
-      .get("http://localhost:3001/recipes?source=api")
-      .then((response) => response.data)
-      .catch((error) => {
-        throw Error({ message: error.message });
-      });
-    const DB = await axios
-      .get("http://localhost:3001/recipes?source=database")
-      .then((response) => response.data)
-      .catch((error) => {
-        throw Error({ message: error.message });
-      });
+    const API =
+      (await axios
+        .get("http://localhost:3001/recipes?source=api")
+        .then((response) => response.data)
+        .catch((error) => [])) || [];
+    const DB =
+      (await axios
+        .get("http://localhost:3001/recipes?source=database")
+        .then((response) => response.data)
+        .catch((error) => [])) || [];
+    console.log("API");
+    console.log(API);
+    console.log("DB");
+    console.log(DB);
     const data = { dataAPI: API, dataDB: DB };
-    dispatch({ type: GET_HOME_RECIPES, payload: data }); // Se accede como "data.API" o "data.DB"
+    if (data) dispatch({ type: GET_HOME_RECIPES, payload: data }); // Se accede como "data.API" o "data.DB"
   };
 };
 
@@ -53,7 +55,7 @@ export const getRecipes = (source = "api") => {
       .catch((error) => {
         throw Error({ message: error.message });
       });
-    dispatch({ type: GET_RECIPES, payload: data }); // Obtiene un objeto "Recipe" de la API o la DB
+    if (data) dispatch({ type: GET_RECIPES, payload: data }); // Obtiene un objeto "Recipe" de la API o la DB
   };
 };
 
@@ -68,7 +70,7 @@ export const getRecipeById = (id, source = "api") => {
         return response.data;
       })
       .catch((error) => console.log(error));
-    dispatch({ type: GET_RECIPE_BY_ID, payload: data });
+    if (data) dispatch({ type: GET_RECIPE_BY_ID, payload: data });
   };
 };
 
@@ -81,7 +83,7 @@ export const getRecipeByName = (recipe, source = "api") => {
       )
       .then((response) => response.data)
       .catch((error) => console.log(error));
-    dispatch({ type: GET_RECIPE_BY_NAME, payload: data }); // Obtiene un objeto "Recipe"
+    if (data) dispatch({ type: GET_RECIPE_BY_NAME, payload: data }); // Obtiene un objeto "Recipe"
   };
 };
 
@@ -90,13 +92,14 @@ export const getDiets = () => {
     console.log(
       "Obtengo la lista de dietas (que el servidor se arregle de dónde las obtiene XD"
     );
-    const data = await axios
-      .get(`http://localhost:3001/diets`)
-      .then((response) => response.data)
-      .catch((error) => console.log(error));
+    const data =
+      (await axios
+        .get(`http://localhost:3001/diets`)
+        .then((response) => response.data)
+        .catch((error) => console.log(error))) || [];
     console.log("Las dietas obtenidas");
     console.log(data);
-    dispatch({ type: GET_DIETS, payload: data });
+    if (data) dispatch({ type: GET_DIETS, payload: data });
   };
 };
 
@@ -106,7 +109,7 @@ export const cleanSearch = () => {
   };
 };
 
-export const addRecipe = (objRecipe) => {
+export const addRecipe = (objRecipe, resetFormFunction) => {
   return async function (dispatch) {
     console.log(objRecipe);
     let detailedResponse;
@@ -126,6 +129,7 @@ export const addRecipe = (objRecipe) => {
           status: response.status,
           statusText: response.statusText,
         };
+        resetFormFunction(); // En este punto reseteamos el formulario (si la receta es creada en la DB)
         return response.data;
       })
       .catch(
@@ -140,7 +144,7 @@ export const addRecipe = (objRecipe) => {
     console.log(data);
     console.log("DetailedResponse:");
     console.log(detailedResponse);
-    // dispatch({ type: ADD_RECIPE, payload: objRecipe }); // Inserta un registro en la DataBase si los datos están correctos
+
     dispatch({
       type: SET_FORM_RESPONSE,
       payload: {
@@ -212,11 +216,11 @@ export const setResultsNumber = (number) => {
   };
 };
 
-export const setCurrentPage = (pageNumber) => {
-  console.log("PageNumber: ", pageNumber);
+export const setCurrentPage = (pageNumber, component) => {
+  console.log("Component: ", component, " - PageNumber: ", pageNumber);
   return {
     type: SET_CURRENT_PAGE,
-    payload: pageNumber,
+    payload: { pageNumber, component },
   };
 };
 

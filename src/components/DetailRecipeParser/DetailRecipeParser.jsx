@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import DietsParser from "../DietsParser/DietsParser";
 
 const DetailContainer = styled.div`
   display: flex;
@@ -19,7 +19,8 @@ const DetailContainer = styled.div`
 `;
 
 const DetailsInfo = styled.div`
-  display: flex;
+  display: block;
+  text-align: justify;
   max-height: 100px;
   overflow: hidden;
   color: #111e;
@@ -50,51 +51,13 @@ const Rating = styled.div`
   padding: 10px;
 `;
 
-const ReleaseDate = styled.div`
+const StepsCount = styled.div`
   background-color: black;
   display: block;
   position: relative;
   border-radius: 4px;
   padding: 10px;
 `;
-
-const Diets = styled.div`
-  display: flex;
-  color: #333333;
-  background-color: #eeeeeeaa;
-  border: 3px dotted white;
-  border-radius: 15px;
-  width: 98%;
-  /* margin: 0 10px; */
-`;
-
-// const PlatformDiv = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   width: 100%;
-//   justify-content: space-between;
-//   align-items: center;
-// `;
-
-// const Label = styled.div`
-//   width: 98%;
-//   background-color: black;
-//   /* margin: 0 10px; */
-//   border: 3px solid white;
-//   border-radius: 5px;
-// `;
-
-// const PlatformSpan = styled.span`
-//   display: inline-flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: teal;
-//   min-width: 65px;
-//   /* height: 100px; */
-//   margin: 1px;
-//   border: 3px solid white;
-//   /* border-radius: 50px; */
-// `;
 
 const IMGDiv = styled.div`
   display: flex;
@@ -116,13 +79,21 @@ export default function DetailRecipeParser(props) {
   const recipe = props.recipe;
 
   // Destructuramos las propiedades de "Recipe"
-  const { id, image, diets } = recipe || {};
+  const { id, image } = recipe || {};
   const name = recipe?.title || recipe?.name;
   const description = recipe?.summary || recipe?.description;
   const health_score = recipe?.healthScore || recipe?.health_score;
   const instructions = recipe?.analyzedInstructions || [
     { name: "Preparation", steps: recipe?.steps },
   ];
+
+  // dietsInfo se pasa como parámetro a DietsParser para que devueva la lista de dietas
+  const dietsInfo = {
+    diets: recipe.diets,
+    vegan: recipe.vegan,
+    vegetarian: recipe.vegetarian,
+    glutenFree: recipe.glutenFree,
+  };
 
   // Obtención de los "Steps": hay diferencia entre los de la API y los de la DB
   // API: se encuentran dentro de "analyzedInstructions"
@@ -140,16 +111,6 @@ export default function DetailRecipeParser(props) {
   // un UUID, siempre tendrá un length considerablemente mayor al de las recetas de la API
   const source = recipe?.id?.length > 10 ? "database" : "api";
 
-  // const {
-  //   id,
-  //   name,
-  //   image,
-  //   rating,
-  //   diets,
-  //   source,
-  // } = props.recipe || [];
-
-  // const miHTML = validarHTML(description);
   return (
     <Link to={`/DetailPage?id=${id}&source=${source}`}>
       <DetailContainer>
@@ -158,31 +119,20 @@ export default function DetailRecipeParser(props) {
         <InfoDiv>
           <Rating>Health Score: {health_score} ✰⭐</Rating>
 
-          <ReleaseDate>
+          <StepsCount>
             Steps:
             <br />
             {steps}
-          </ReleaseDate>
+          </StepsCount>
 
-          <DetailsInfo>
-            <div>{description}</div>
-          </DetailsInfo>
+          <DetailsInfo dangerouslySetInnerHTML={{ __html: description }} />
         </InfoDiv>
 
-        <Diets>{diets?.map((diet) => diet.name)}</Diets>
+        <DietsParser dietsInfo={dietsInfo} />
 
         <IMGDiv>
           <img src={image} alt="Recipe Background" />
         </IMGDiv>
-
-        {/* <Label>Plataformas disponibles:</Label>
-        <PlatformDiv>
-          {platforms?.map((platform, index) => {
-            return (
-              <PlatformSpan key={index}>{platform.platform.name}</PlatformSpan>
-            );
-          })}
-        </PlatformDiv> */}
       </DetailContainer>
     </Link>
   );

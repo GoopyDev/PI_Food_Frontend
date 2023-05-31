@@ -12,8 +12,10 @@ const globalState = {
   apiRecipesUnfiltered   : []   , // Se guardará el estado original de las recetas para restablecerlo
   dbRecipesUnfiltered    : []   , // Se guardará el estado original de las recetas para restablecerlo
   searchResultsUnfiltered: []   , // Se guardará el estado original de las recetas para restablecerlo
-  resultsToShow          : 10   , // Cuántos resultados por página se muestran
-  currentPage            : 1    , // Para el número de página del paginador de resultados
+  resultsToShow          : 9    , // Cuántos resultados por página se muestran
+  currentPageApi         : 1    , // Para el número de página del paginador de recetas de la API
+  currentPageDb          : 1    , // Para el número de página del paginador de recetas de la DB
+  currentPageSearch      : 1    , // Para el número de página del paginador de searchResults
   preventApiCall         : false, // Para no recargar los datos en HomePage, si volvemos desde otra página
   formResponse           : {}   , // Respuesta al realizar Submit del form
 };
@@ -197,7 +199,14 @@ export default function rootReducer(state = globalState, action) {
     case "SET_RESULTS_NUMBER":
       return { ...state, resultsToShow: action.payload };
     case "SET_CURRENT_PAGE":
-      return { ...state, currentPage: action.payload };
+      if (action.payload.component === "HomePageApi") {
+        return { ...state, currentPageApi: action.payload.pageNumber };
+      } else if (action.payload.component === "HomePageDatabase") {
+        return { ...state, currentPageDb: action.payload.pageNumber };
+      } else if (action.payload.component === "SearchPage") {
+        return { ...state, currentPageSearch: action.payload.pageNumber };
+      }
+      return { ...state };
     case "SET_PREVENT_API_CALL":
       return { ...state, preventApiCall: action.payload };
     case "SET_FORM_RESPONSE":

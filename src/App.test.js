@@ -1,8 +1,14 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, fireEvent } from "@testing-library/react";
+import App from "./App";
+// const { render, screen } = require("@testing-library/react");
+// const chai = require("chai");
+// const { expect } = chai;
+// const App = require("./App");
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe("Login", () => {
+  it("renders learn react link", () => {
+    const component = render(<App />);
+    const divElement = component.getById("miDiv");
+    expect(divElement).toBeInTheDocument();
+  });
 });
